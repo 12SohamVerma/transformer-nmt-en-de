@@ -1,0 +1,84 @@
+{
+  "source": "github.com/multi30k/dataset (official)",
+  "splits": {
+    "train": {
+      "pairs": 29000,
+      "dropped_empty": 0,
+      "avg_words_en": 11.9,
+      "avg_words_de": 11.12,
+      "max_words_en": 37,
+      "max_words_de": 39,
+      "avg_bpe_tokens_en": 14.28,
+      "max_bpe_tokens_en": 48,
+      "unk_tokens_en": 0,
+      "avg_bpe_tokens_de": 14.77,
+      "max_bpe_tokens_de": 52,
+      "unk_tokens_de": 0
+    },
+    "valid": {
+      "pairs": 1014,
+      "dropped_empty": 0,
+      "avg_words_en": 12.0,
+      "avg_words_de": 11.41,
+      "max_words_en": 27,
+      "max_words_de": 30,
+      "avg_bpe_tokens_en": 14.46,
+      "max_bpe_tokens_en": 43,
+      "unk_tokens_en": 0,
+      "avg_bpe_tokens_de": 15.31,
+      "max_bpe_tokens_de": 47,
+      "unk_tokens_de": 0
+    },
+    "test": {
+      "pairs": 1000,
+      "dropped_empty": 0,
+      "avg_words_en": 11.88,
+      "avg_words_de": 10.9,
+      "max_words_en": 32,
+      "max_words_de": 30,
+      "avg_bpe_tokens_en": 14.18,
+      "max_bpe_tokens_en": 33,
+      "unk_tokens_en": 0,
+      "avg_bpe_tokens_de": 14.3,
+      "max_bpe_tokens_de": 39,
+      "unk_tokens_de": 0
+    }
+  },
+  "test_sentences_also_in_train_en": 0,
+  "vocab_size": 8000,
+  "special_tokens": {
+    "<pad>": 0,
+    "<unk>": 1,
+    "<s>": 2,
+    "</s>": 3
+  },
+  "tokenization_example": {
+    "text": "Two young, White males are outside near many bushes.",
+    "pieces": [
+      "▁Two",
+      "▁young",
+      ",",
+      "▁White",
+      "▁males",
+      "▁are",
+      "▁outside",
+      "▁near",
+      "▁many",
+      "▁bushes",
+      "."
+    ],
+    "ids": [
+      161,
+      216,
+      7930,
+      5397,
+      3959,
+      131,
+      457,
+      574,
+      1857,
+      6088,
+      7916
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "dataset": "Multi30k Task 1 EN->DE, test_2016_flickr (1000 sentences)",
+  "checkpoint": "checkpoints\\small_best.pt",
+  "model_config": {
+    "name": "small",
+    "num_encoder_layers": 3,
+    "num_decoder_layers": 3,
+    "d_model": 256,
+    "num_heads": 8,
+    "d_ff": 1024,
+    "dropout": 0.1,
+    "max_len": 256,
+    "share_embeddings": true,
+    "layer_norm_eps": 1e-06,
+    "d_k": 32,
+    "d_v": 32
+  },
+  "train_config": {
+    "batch_size": 128,
+    "epochs": 25,
+    "warmup_steps": 1500,
+    "lr_factor": 1.0,
+    "label_smoothing": 0.1,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.98,
+    "adam_eps": 1e-09,
+    "grad_clip": 1.0,
+    "max_train_tokens": 100,
+    "seed": 42,
+    "patience": 0
+  },
+  "best_epoch": 15,
+  "num_trainable_parameters": 7577600,
+  "evaluated_sentences": 1000,
+  "losses": {
+    "note": "loss = label-smoothed cross-entropy per target token (eps_ls=0.1); nll = un-smoothed cross-entropy; ppl = exp(nll)",
+    "train_loss_at_best_epoch": 2.2560612806261586,
+    "val_loss": 2.8810590751571383,
+    "val_nll": 1.8189583541937457,
+    "val_ppl": 6.165432906563553,
+    "test_loss": 2.8575142377404203,
+    "test_nll": 1.7923410042757084,
+    "test_ppl": 6.0034902250316495
+  },
+  "bleu": {
+    "greedy": 36.25,
+    "beam4_alpha0.6": 37.09,
+    "beam_detail": "BLEU = 37.09 69.2/45.0/31.7/22.3 (BP = 0.963 ratio = 0.963 hyp_len = 11664 ref_len = 12106)",
+    "chrf_beam": 60.98,
+    "sacrebleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0"
+  },
+  "inference_time": {
+    "device": "cpu",
+    "greedy_total_sec": 104.84,
+    "greedy_ms_per_sentence_batched": 104.84,
+    "beam_total_sec": 207.58,
+    "beam_ms_per_sentence": 207.58,
+    "single_sentence_greedy_latency_ms_mean": 119.13
+  },
+  "paper_reference_not_comparable": {
+    "note": "Reported in Vaswani et al. (2017), Table 2, on WMT 2014 EN-DE (newstest2014, ~4.5M training pairs, 8x P100 GPUs). Shown for context only - NOT reproduced and NOT comparable to Multi30k.",
+    "transformer_base_bleu_wmt14_en_de": 27.3,
+    "transformer_big_bleu_wmt14_en_de": 28.4
+  }
+}

@@ -1,0 +1,61 @@
+Checkpoint: D:\Attention alll you need\transformer-mini-project\checkpoints\small_best.pt  (epoch 15, 7,577,600 params, config 'small')
+Validation loss 2.8811 (NLL 1.8190, PPL 6.17)
+Test loss       2.8575 (NLL 1.7923, PPL 6.00)
+Greedy decoding: 1000 sentences in 104.8s
+  beam search 200/1000
+  beam search 400/1000
+  beam search 600/1000
+  beam search 800/1000
+  beam search 1000/1000
+Beam search (k=4, alpha=0.6): 207.6s
+BLEU greedy: 36.25   BLEU beam: 37.09   chrF beam: 60.98
+SacreBLEU signature: nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0
+{
+  "bleu": {
+    "greedy": 36.25,
+    "beam4_alpha0.6": 37.09,
+    "beam_detail": "BLEU = 37.09 69.2/45.0/31.7/22.3 (BP = 0.963 ratio = 0.963 hyp_len = 11664 ref_len = 12106)",
+    "chrf_beam": 60.98,
+    "sacrebleu_signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.6.0"
+  },
+  "losses": {
+    "note": "loss = label-smoothed cross-entropy per target token (eps_ls=0.1); nll = un-smoothed cross-entropy; ppl = exp(nll)",
+    "train_loss_at_best_epoch": 2.2560612806261586,
+    "val_loss": 2.8810590751571383,
+    "val_nll": 1.8189583541937457,
+    "val_ppl": 6.165432906563553,
+    "test_loss": 2.8575142377404203,
+    "test_nll": 1.7923410042757084,
+    "test_ppl": 6.0034902250316495
+  },
+  "inference_time": {
+    "device": "cpu",
+    "greedy_total_sec": 104.84,
+    "greedy_ms_per_sentence_batched": 104.84,
+    "beam_total_sec": 207.58,
+    "beam_ms_per_sentence": 207.58,
+    "single_sentence_greedy_latency_ms_mean": 119.13
+  }
+}
+
+First 5 test translations:
+EN : A man in an orange hat starring at something.
+REF: Ein Mann mit einem orangefarbenen Hut, der etwas anstarrt.
+HYP: Ein Mann mit einem orangefarbenen Hut starrt auf etwas.
+
+EN : A Boston Terrier is running on lush green grass in front of a white fence.
+REF: Ein Boston Terrier läuft über saftig-grünes Gras vor einem weißen Zaun.
+HYP: Ein Bo Terrier rennt auf grünem Gras vor einem weißen Zaun.
+
+EN : A girl in karate uniform breaking a stick with a front kick.
+REF: Ein Mädchen in einem Karateanzug bricht ein Brett mit einem Tritt.
+HYP: Ein Mädchen in Karateanzug macht einen Stock mit einem Fußtritt vortritt.
+
+EN : Five people wearing winter jackets and helmets stand in the snow, with snowmobiles in the background.
+REF: Fünf Leute in Winterjacken und mit Helmen stehen im Schnee mit Schneemobilen im Hintergrund.
+HYP: Fünf Personen mit Winterjacken und Helmen stehen im Schnee mit Schnee im Hintergrund.
+
+EN : People are fixing the roof of a house.
+REF: Leute Reparieren das Dach eines Hauses.
+HYP: Leute reparieren das Dach eines Hauses.
+

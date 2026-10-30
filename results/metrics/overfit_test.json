@@ -1,0 +1,9 @@
+{
+  "pairs": 32,
+  "steps": 500,
+  "initial_loss": 9.437779426574707,
+  "final_loss": 4.6867848141118884e-05,
+  "exact_match_reproductions": 32,
+  "seconds": 63.1,
+  "passed": true
+}

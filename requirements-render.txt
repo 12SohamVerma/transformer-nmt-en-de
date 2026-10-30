@@ -1,0 +1,5 @@
+# Minimal runtime dependencies for the Streamlit UI (app.py) on Render.
+# PyTorch is installed separately from the CPU-only index by the build command
+# in render.yaml, so the multi-GB CUDA build is never downloaded.
+sentencepiece==0.2.2
+streamlit==1.66.1

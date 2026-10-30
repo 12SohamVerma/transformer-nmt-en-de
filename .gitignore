@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Multi30k text is re-downloaded by `python prepare_data.py`
+data/raw/
+data/processed/*
+!data/processed/stats.json
+
+# Only the final trained checkpoint is versioned
+checkpoints/*
+!checkpoints/small_best.pt
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
