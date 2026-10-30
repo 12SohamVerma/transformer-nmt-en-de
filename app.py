@@ -97,6 +97,15 @@ _ICON_PATHS = {
                 '<path d="M14.47 14.48 20 20"/><path d="M8.12 8.12 12 12"/>',
     "wave": '<path d="M2 12c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/><path d="M2 18c2-4 4-4 6 0s4 4 6 0 4-4 6 0"/>',
     "arrow": '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    "plus_circle": '<circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>',
+    "network": '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="12" r="2"/>'
+               '<circle cx="6" cy="19" r="2"/><circle cx="18" cy="18" r="2"/>'
+               '<path d="M6.7 7.2 10.5 10.8M17.3 7.2l-3.8 3.6M10.6 13.4l-3.2 4M13.4 13.4l3.2 3.2"/>',
+    "search": '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+    "mask": '<path d="M3 7c0-1 1-2 3-2 3 0 4 1 6 1s3-1 6-1c2 0 3 1 3 2 0 6-4 11-9 11S3 13 3 7Z"/>'
+            '<path d="M7.5 10.5c.8-.6 1.7-.6 2.5 0M14 10.5c.8-.6 1.7-.6 2.5 0M9.5 14.5c1.5 1 3.5 1 5 0"/>',
+    "link": '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>'
+            '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
 }
 
 
@@ -285,7 +294,6 @@ section[data-testid="stSidebar"] .block-container, [data-testid="stSidebarUserCo
 .dcard svg {color: var(--indigo); flex: none;}
 .dcard .a {font-weight: 700; color: var(--ink); font-size: .86rem;}
 .dcard .b {color: var(--muted); font-size: .78rem;}
-.hint {color: var(--muted); font-size: .82rem;}
 
 /* ---------- examples ---------- */
 .ex-h {display: flex; align-items: center; gap: .55rem; flex-wrap: wrap;}
@@ -309,29 +317,17 @@ div[class*="st-key-example_"] button:hover, div[class*="st-key-more_example_"] b
 .metric .sm {color: var(--muted); font-size: .78rem; margin-top: .15rem;}
 .metric.hl {background: linear-gradient(135deg, #eef2ff, #f5f3ff); border-color: #c7d2fe;}
 .metric.hl .num {background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;}
-.note {display: flex; gap: .7rem; background: #fffbeb; border: 1px solid #fde68a; color: #78350f; border-radius: 14px;
-  padding: .85rem 1.1rem; font-size: .88rem; margin-top: 1rem; align-items: flex-start;}
-.note svg {flex: none; color: #d97706; margin-top: .1rem;}
 .st-key-img_loss, .st-key-img_attn {background: #fff; border: 1px solid var(--line); border-radius: 16px;
   padding: 1rem 1.1rem; box-shadow: var(--shadow);}
 .imgcap {font-weight: 700; color: var(--ink); font-size: .95rem; display: flex; align-items: center; gap: .5rem;}
 .imgcap svg {color: var(--indigo);}
+.graph {width: 100%; height: auto; display: block; margin-top: .6rem; border-radius: 8px;}
 
-.flow {display: flex; align-items: stretch; gap: .45rem;}
-.flow .step {flex: 1 1 0; min-width: 0; padding: 1rem .5rem; text-align: center; display: flex; flex-direction: column;
-  align-items: center; gap: .45rem;}
-.flow .step .nm {font-weight: 700; color: var(--ink); font-size: .86rem; line-height: 1.25;}
-.flow .step .ds {color: var(--muted); font-size: .72rem; line-height: 1.3;}
-.flow .step.io {background: var(--grad); border: none;}
-.flow .step.io .nm, .flow .step.io .ds {color: #fff;}
-.flow .step.io .ibubble {background: rgba(255,255,255,.18); color: #fff;}
-.flow .arr {align-self: center; color: #a5b4fc; flex: none;}
-@media (max-width: 860px) {.flow {flex-direction: column;} .flow .arr {transform: rotate(90deg);}}
 
 .prose {padding: 1.3rem 1.5rem; color: var(--text); font-size: .93rem; line-height: 1.65;}
-.prose h3 {font-size: 1.08rem; color: var(--ink); margin: 0 0 .6rem; font-weight: 750; display: flex; gap: .55rem;
-  align-items: center; padding: 0;}
-.prose h3 svg {color: var(--indigo);}
+.prose .ph3 {font-size: 1.08rem; color: var(--ink); margin: 0 0 .7rem; font-weight: 750; display: flex;
+  gap: .6rem; align-items: center;}
+.prose .ph3 svg {color: var(--indigo); flex: none;}
 .prose ul {margin: .3rem 0 0; padding-left: 1.1rem;} .prose li {margin: .25rem 0;}
 .prose a {color: var(--indigo); font-weight: 600; text-decoration: none;}
 .prose code {background: #f1f2f9; border-radius: 6px; padding: .1rem .35rem; font-size: .82rem; color: #3730a3;}
@@ -347,6 +343,15 @@ table.pt td.n {font-weight: 700; color: #4338ca;}
   margin-top: .9rem;}
 .footer {color: var(--muted); font-size: .82rem; text-align: center; margin-top: 3rem; border-top: 1px solid var(--line);
   padding-top: 1.1rem;}
+.arch-chips {margin: -.3rem 0 1rem;}
+.arch-wrap {padding: 1rem; overflow-x: auto;}
+.arch-wrap svg {display: block; width: 100%; min-width: 980px; height: auto;}
+.arch-wrap text {font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;}
+.fine {color: var(--muted); font-size: .8rem; margin-top: .6rem;}
+.meta {color: var(--muted); font-size: .85rem; margin: -.2rem 0 .8rem;}
+.tags {display: flex; flex-wrap: wrap; gap: .45rem;}
+.tags span {background: var(--soft); color: #3730a3; border-radius: 999px; padding: .3rem .75rem; font-size: .82rem;
+  font-weight: 600;}
 @media (max-width: 640px) {.block-container {padding: 1rem 1rem 2rem;} .hero {padding: 1.5rem 1.3rem;}}
 </style>
 """
@@ -376,6 +381,14 @@ def get_translator():
         return load_translator(), None
     except Exception as exc:          # missing checkpoint / tokenizer, vocabulary mismatch, ...
         return None, str(exc)
+
+
+@st.cache_data(show_spinner=False)
+def png_data_uri(path: str) -> str:
+    """Embed result graphs inline: Streamlit's media files can 404 if a rerun interrupts the first page load."""
+    import base64
+    from pathlib import Path
+    return "data:image/png;base64," + base64.b64encode(Path(path).read_bytes()).decode()
 
 
 def load_json(path):
@@ -517,8 +530,7 @@ render('<div class="grid cols-3">' + "".join(
 pill = (f'<span class="pill ok">{icon("check", 17)}Model loaded · checkpoints/{esc(CHECKPOINT.name)}</span>'
         if translator else f'<span class="pill bad">{icon("info", 17)}Model unavailable</span>')
 section("translate", "Translate English → German",
-        "Type an English sentence or pick an example. The translation is generated using our trained "
-        "Transformer model.", right=pill, blue=True)
+        "Type an English sentence or pick an example.", right=pill, blue=True)
 
 left, right = st.columns(2, gap="medium")
 with left:
@@ -576,12 +588,9 @@ with right:
                 <div class="b">Inference time (CPU)</div></div></div>
               <div class="dcard">{icon("list", 22)}<div><div class="a">{res['tokens']} tokens</div>
                 <div class="b">Generated length</div></div></div>
-            </div>
-            <div class="hint">Input: “{esc(res['source'])}”</div>""")
+            </div>""")
         else:
-            render('<div class="tgt-box"><div class="ph">Your German translation will appear here.</div></div>'
-                   '<div class="hint">The model works best on short, descriptive sentences like Multi30k '
-                   'image captions.</div>')
+            render('<div class="tgt-box"><div class="ph">Your German translation will appear here.</div></div>')
 
 ex_head, ex_more = st.columns([4, 1], vertical_alignment="center")
 render(f'<div class="ex-h">{icon("sparkles", 19)}<b>Try an example</b><span>Click on any example to fill the '
@@ -596,134 +605,255 @@ for col, (i, sentence) in zip(st.columns(len(EXAMPLES)), enumerate(EXAMPLES)):
 # --------------------------------------------------------------------------
 # Architecture
 # --------------------------------------------------------------------------
-section("architecture", "Model Architecture", "How a sentence flows through our Transformer")
-steps = [("languages", "English Input", "source sentence", True), ("scissors", "Tokenization", "SentencePiece BPE", False),
-         ("wave", "Positional Encoding", "embedding × √d + sin/cos", False),
-         ("layers", "Encoder", "self-attention + FFN", False), ("layers", "Decoder", "masked + cross-attention", False),
-         ("chart", "Linear + Softmax", "word probabilities", False), ("target", "German Output", "translated sentence", True)]
-arrow = f'<span class="arr">{icon("arrow", 18, 2.2)}</span>'
-render('<div class="flow">' + arrow.join(
-    f'<div class="card step{" io" if io else ""}"><div class="ibubble sm t-indigo">{icon(ic, 22)}</div>'
-    f'<div class="nm">{esc(nm)}</div><div class="ds">{esc(ds)}</div></div>' for ic, nm, ds, io in steps) + "</div>")
+@st.cache_data(show_spinner=False)
+def example_translation(sentence: str) -> str:
+    return load_translator().translate(sentence, beam_size=BEAM_SIZE, alpha=ALPHA).translation
 
-arch = [("layers", "t-indigo", "Encoder layers", cfg.num_encoder_layers),
-        ("layers", "t-purple", "Decoder layers", cfg.num_decoder_layers),
-        ("box", "t-blue", "Embedding dimension", cfg.d_model),
-        ("users", "t-green", "Attention heads", cfg.num_heads),
-        ("cpu", "t-amber", "Feed-forward dimension", cfg.d_ff),
-        ("activity", "t-red", "Dropout", cfg.dropout)]
-render('<div class="grid cols-3" style="margin-top:1rem">' + "".join(
-    f'<div class="card icard"><div class="ibubble sm {tone}">{icon(ic, 22)}</div>'
-    f'<div><div class="klabel">{esc(k)}</div><div class="kvalue">{esc(v)}</div></div></div>'
-    for ic, tone, k, v in arch) + "</div>")
-base = C.MODEL_CONFIGS["base"]
-render(f'<div class="note">{icon("info", 18)}<div>This is the <b>Small configuration</b> of the original '
-       f'Transformer, sized for CPU training. The paper\'s base model uses {base.num_encoder_layers} + '
-       f'{base.num_decoder_layers} layers, d_model = {base.d_model}, {base.num_heads} heads and d_ff = {base.d_ff}; '
-       f'that configuration is also implemented in this project (<code>python train.py --config base</code>).'
-       f'</div></div>')
+
+def _svg_icon(name: str, x: float, y: float, size: float, color: str, sw: float = 1.9) -> str:
+    return (f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="0 0 24 24" fill="none" stroke="{color}" '
+            f'stroke-width="{sw}" stroke-linecap="round" stroke-linejoin="round">{_ICON_PATHS[name]}</svg>')
+
+
+def _text(x, y, s, size=14, weight=500, fill="#111633", anchor="start") -> str:
+    return (f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" fill="{fill}" '
+            f'text-anchor="{anchor}">{esc(s)}</text>')
+
+
+def _arrow_up(x, y_from, y_to, color="#64748b") -> str:
+    return (f'<line x1="{x}" y1="{y_from}" x2="{x}" y2="{y_to + 7}" stroke="{color}" stroke-width="1.6"/>'
+            f'<polygon points="{x - 4.5},{y_to + 8} {x + 4.5},{y_to + 8} {x},{y_to}" fill="{color}"/>')
+
+
+def _head_right(x, y, color="#64748b") -> str:
+    return f'<polygon points="{x - 8},{y - 4.5} {x - 8},{y + 4.5} {x},{y}" fill="{color}"/>'
+
+
+_BOX_STYLES = {"io": ("#f5f7ff", "#dfe3f5", "#2563eb"), "an": ("#f1efff", "#d9d3fb", "#4f46e5"),
+               "ffn": ("#eef4ff", "#cfdcfb", "#2563eb"), "attn": ("#fff4ec", "#fbd5b8", "#ea580c"),
+               "cross": ("#fff0f1", "#fbc8cf", "#e11d48"), "purple": ("#f5f3ff", "#ddd6fe", "#7c3aed")}
+
+
+def _box(x, y, w, h, kind, ic, title, sub=(), title_color="#111633", sub_color="#64748b") -> str:
+    fill, stroke, icol = _BOX_STYLES[kind]
+    s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" stroke="{stroke}"/>'
+    if kind == "an":                                   # centred "(+) Add & Norm"
+        cx = x + w / 2
+        return s + _svg_icon("plus_circle", cx - 52, y + h / 2 - 9, 18, icol) + \
+            _text(cx - 28, y + h / 2 + 5, title, 14, 650)
+    s += _svg_icon(ic, x + 20, y + h / 2 - 13, 26, icol)
+    lines = list(sub)
+    ty = y + h / 2 + 5 - 9 * len(lines)
+    s += _text(x + 62, ty, title, 14.5, 700, title_color)
+    for i, line in enumerate(lines):
+        s += _text(x + 62, ty + 18 + 16 * i, line, 12, 450, sub_color)
+    return s
+
+
+def _quoted(text: str, width: int = 38) -> list[str]:
+    import textwrap
+    lines = textwrap.wrap(text, width) or [""]
+    lines[0], lines[-1] = "“" + lines[0], lines[-1] + "”"
+    return lines
+
+
+def architecture_svg(cfg, n_params: int, vocab: int, src: str, tgt: str) -> str:
+    """Encoder-decoder diagram drawn from the loaded model's real configuration."""
+    E, D = 265, 825                                      # centre lines of the encoder / decoder columns
+    p = ['<svg viewBox="0 0 1500 960" xmlns="http://www.w3.org/2000/svg" role="img" '
+         'aria-label="Transformer encoder-decoder architecture">',
+         '<defs><linearGradient id="archHead" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2563eb"/>'
+         '<stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>']
+
+    # ----- encoder column -----
+    p.append('<rect x="30" y="362" width="420" height="328" rx="16" fill="#fbfbff" stroke="#e6e8f2"/>')
+    p.append('<rect x="30" y="362" width="420" height="44" rx="12" fill="url(#archHead)"/>')
+    p.append(_text(240, 391, f"Encoder × {cfg.num_encoder_layers}", 19, 750, "#ffffff", "middle"))
+    p.append(_box(100, 424, 330, 40, "an", "", "Add & Norm"))
+    p.append(_box(100, 476, 330, 52, "ffn", "network", "Feed Forward Network", ["Linear → ReLU → Linear"]))
+    p.append(_box(100, 548, 330, 40, "an", "", "Add & Norm"))
+    p.append(_box(100, 600, 330, 52, "attn", "search", "Multi-Head Self-Attention"))
+    p.append(_box(80, 715, 370, 60, "io", "wave", "Embedding + Positional Encoding",
+                  ["Token embeddings + sinusoidal positions"]))
+    p.append(_box(80, 795, 370, 55, "purple", "file", "SentencePiece BPE", ["Subword tokenization"]))
+    p.append(_box(80, 870, 370, 80, "io", "file", "English input sentence", _quoted(src), "#1e3a8a"))
+    for a, b in [(870, 850), (795, 775), (715, 652), (600, 588), (548, 528), (476, 464), (424, 406), (362, 336)]:
+        p.append(_arrow_up(E, a, b))
+    for y0, y1 in [(666, 568), (538, 444)]:            # residual connections
+        p.append(f'<path d="M{E} {y0} H70 V{y1} H92" fill="none" stroke="#64748b" stroke-width="1.6"/>')
+        p.append(_head_right(100, y1))
+
+    # ----- decoder column -----
+    p.append('<rect x="590" y="240" width="420" height="450" rx="16" fill="#fbfbff" stroke="#e6e8f2"/>')
+    p.append('<rect x="590" y="240" width="420" height="44" rx="12" fill="url(#archHead)"/>')
+    p.append(_text(800, 269, f"Decoder × {cfg.num_decoder_layers}", 19, 750, "#ffffff", "middle"))
+    p.append(_box(660, 300, 330, 40, "an", "", "Add & Norm"))
+    p.append(_box(660, 352, 330, 52, "ffn", "network", "Feed Forward Network", ["Linear → ReLU → Linear"]))
+    p.append(_box(660, 424, 330, 40, "an", "", "Add & Norm"))
+    p.append(_box(660, 476, 330, 52, "cross", "link", "Cross-Attention", ["(Encoder-Decoder Attention)"],
+                  "#9f1239", "#be123c"))
+    p.append(_box(660, 548, 330, 40, "an", "", "Add & Norm"))
+    p.append(_box(660, 600, 330, 52, "attn", "mask", "Masked Multi-Head Attention"))
+    p.append(_box(640, 10, 370, 80, "io", "file", "German output sentence", _quoted(tgt), "#1e3a8a"))
+    p.append(_box(640, 105, 370, 55, "purple", "chart", "Softmax", [f"Token probabilities ({vocab:,} tokens)"]))
+    p.append(_box(640, 172, 370, 55, "io", "network", "Linear", ["Project to vocabulary dimension"]))
+    p.append(_box(640, 715, 370, 60, "io", "wave", "Embedding + Positional Encoding",
+                  ["Token embeddings + sinusoidal positions"]))
+    shifted = "<BOS> " + " ".join(tgt.split()[:4]) + " …"
+    p.append(_box(640, 795, 370, 80, "io", "file", "German input (shifted right)", [shifted], "#1e3a8a"))
+    for a, b in [(795, 775), (715, 652), (600, 588), (548, 528), (476, 464), (424, 404), (352, 340), (300, 284),
+                 (240, 227), (172, 160), (105, 90)]:
+        p.append(_arrow_up(D, a, b))
+    for y0, y1 in [(666, 568), (538, 444), (414, 320)]:
+        p.append(f'<path d="M{D} {y0} H630 V{y1} H652" fill="none" stroke="#64748b" stroke-width="1.6"/>')
+        p.append(_head_right(660, y1))
+
+    # ----- encoder output -> cross-attention (drawn over the decoder panel) -----
+    p.append('<path d="M430 444 C 520 444, 560 502, 652 502" fill="none" stroke="#7c3aed" stroke-width="2.4"/>')
+    p.append(_head_right(660, 502, "#7c3aed"))
+    for i, line in enumerate(["Encoder", "Outputs", "(K, V)"]):
+        p.append(_text(518, 400 + 16 * i, line, 13, 650, "#334155", "middle"))
+
+    # ----- multi-head attention detail -----
+    p.append('<path d="M990 502 C 1018 502, 1022 330, 1050 330" fill="none" stroke="#a5b4fc" stroke-width="1.6" '
+             'stroke-dasharray="5 5"/>')
+    p.append('<rect x="1050" y="10" width="440" height="460" rx="16" fill="#ffffff" stroke="#e6e8f2"/>')
+    p.append('<rect x="1072" y="34" width="5" height="24" rx="2" fill="#2563eb"/>')
+    p.append(_text(1088, 53, f"Multi-Head Attention (h = {cfg.num_heads})", 18, 750))
+    p.append(_text(1266, 86, f"Split into {cfg.num_heads} heads", 12.5, 500, "#374151", "middle"))
+    p.append(_text(1072, 272, "Input", 12.5, 500, "#374151", "middle"))
+    p.append(_text(1072, 288, "(X)", 12.5, 500, "#374151", "middle"))
+    for cy, letter, color in [(160, "Q", "#2563eb"), (276, "K", "#7c3aed"), (392, "V", "#db2777")]:
+        p.append(f'<path d="M1094 276 H1100 V{cy} H1104" fill="none" stroke="#64748b" stroke-width="1.5"/>')
+        p.append(_head_right(1112, cy))
+        p.append(f'<rect x="1112" y="{cy - 20}" width="72" height="40" rx="9" fill="#eef4ff" stroke="#cfdcfb"/>')
+        p.append(_text(1148, cy + 5, "Linear", 13, 600, "#1e293b", "middle"))
+        p.append(_text(1197, cy + 6, letter, 17, 800, color, "middle"))
+        p.append(f'<line x1="1206" y1="{cy}" x2="1212" y2="{cy}" stroke="#64748b" stroke-width="1.5"/>')
+    p.append('<rect x="1218" y="95" width="96" height="362" rx="10" fill="none" stroke="#a5b4fc" '
+             'stroke-dasharray="5 4"/>')
+    heads = cfg.num_heads
+    step = 352 / heads
+    lo, hi = (0xbf, 0xdb, 0xfe), (0xfb, 0xcf, 0xe8)            # blue-200 -> pink-200
+    for i in range(heads):
+        t = i / max(heads - 1, 1)
+        col = "#" + "".join(f"{round(a + (b - a) * t):02x}" for a, b in zip(lo, hi))
+        y = 100 + i * step
+        p.append(f'<rect x="1228" y="{y:.1f}" width="76" height="{step - 10:.1f}" rx="7" fill="{col}"/>')
+        p.append(_text(1266, round(y + (step - 10) / 2 + 4.5, 1), f"Head {i + 1}", 12.5, 600, "#312e81", "middle"))
+    p.append('<path d="M1304 121 H1326 V431 H1304" fill="none" stroke="#64748b" stroke-width="1.5"/>')
+    p.append('<line x1="1326" y1="276" x2="1336" y2="276" stroke="#64748b" stroke-width="1.5"/>')
+    p.append(_head_right(1344, 276))
+    p.append('<rect x="1344" y="236" width="70" height="80" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>')
+    for i, line in enumerate(["Concat", "+", "Linear"]):
+        p.append(_text(1379, 262 + 16 * i, line, 12.5, 600, "#1e293b", "middle"))
+    p.append('<line x1="1414" y1="276" x2="1472" y2="276" stroke="#64748b" stroke-width="1.5"/>')
+    p.append(_head_right(1480, 276))
+    for i, line in enumerate(["Multi-head", "attention", "output"]):
+        p.append(_text(1450, 236 + 13 * i, line, 10.5, 500, "#475569", "middle"))
+
+    # ----- configuration card -----
+    p.append('<rect x="1050" y="490" width="440" height="460" rx="16" fill="#ffffff" stroke="#e6e8f2"/>')
+    p.append(_svg_icon("gear", 1072, 512, 24, "#4f46e5"))
+    p.append(_text(1106, 531, f"Model Configuration ({cfg.name.capitalize()})", 17, 750))
+    rows = [("Encoder layers", cfg.num_encoder_layers), ("Decoder layers", cfg.num_decoder_layers),
+            ("Embedding dimension (d_model)", cfg.d_model), ("Attention heads (h)", cfg.num_heads),
+            ("Feed forward dimension (d_ff)", cfg.d_ff), ("Dropout", cfg.dropout),
+            ("Vocabulary (BPE)", f"{vocab:,}"), ("Trainable parameters", f"{n_params / 1e6:.2f}M")]
+    for i, (k, v) in enumerate(rows):
+        y = 576 + 46 * i
+        p.append(_text(1072, y, k, 14, 450, "#334155"))
+        p.append(_text(1468, y, str(v), 14, 700, "#111633", "end"))
+        if i < len(rows) - 1:
+            p.append(f'<line x1="1072" y1="{y + 18}" x2="1468" y2="{y + 18}" stroke="#eef0f6"/>')
+    p.append("</svg>")
+    return "".join(p)
+
+
+section("architecture", "Model Architecture",
+        f"Attention Is All You Need (2017) · {cfg.name.capitalize()} configuration")
+render(f"""<div class="chips arch-chips">
+<span class="chip">{icon("languages", 18)}English → German</span>
+<span class="chip">{icon("box", 18)}Transformer Encoder-Decoder</span>
+<span class="chip">{icon("database", 18)}Trained on Multi30k</span>
+<span class="chip red">{icon("torch", 18)}Built from scratch in PyTorch</span></div>""")
+ARCH_SRC = "Three children are playing soccer on a green field."
+arch_tgt = example_translation(ARCH_SRC) if translator else "(model unavailable)"
+n_params = translator.num_parameters if translator else (metrics or {}).get("num_trainable_parameters", 0)
+vocab = translator.sp.get_piece_size() if translator else C.VOCAB_SIZE
+render(f'<div class="card arch-wrap">{architecture_svg(cfg, n_params, vocab, ARCH_SRC, arch_tgt)}</div>')
 
 # --------------------------------------------------------------------------
 # Performance
 # --------------------------------------------------------------------------
-section("performance", "Model Performance",
-        f"Multi30k test results · test_2016_flickr (1,000 held-out sentence pairs) · best checkpoint "
-        f"(epoch {best_epoch})", blue=True)
+section("performance", "Model Performance", "Multi30k test set · 1,000 held-out sentences", blue=True)
 if metrics is None:
-    st.info("Evaluation results not found. Run `python evaluate.py` to generate "
-            "`results/metrics/small_metrics.json`.")
+    st.info("Evaluation results not found. Run `python evaluate.py`.")
 else:
     bleu, losses, timing = metrics["bleu"], metrics["losses"], metrics["inference_time"]
     beam_bleu = next(v for k, v in bleu.items() if k.startswith("beam") and k != "beam_detail")
     train_min = history["total_train_time_sec"] / 60 if history else None
     cards = [
-        ("award", "t-indigo", "BLEU · Beam Search", f"{beam_bleu:.2f}", "SacreBLEU, beam 4, α 0.6", True),
+        ("award", "t-indigo", "BLEU · Beam", f"{beam_bleu:.2f}", "k = 4, α = 0.6", True),
         ("award", "t-purple", "BLEU · Greedy", f"{bleu['greedy']:.2f}", "SacreBLEU", False),
-        ("type", "t-blue", "chrF", f"{bleu['chrf_beam']:.2f}", "character n-gram F-score", False),
-        ("activity", "t-green", "Perplexity", f"{losses['test_ppl']:.2f}", "test set, per sub-word token", False),
+        ("type", "t-blue", "chrF", f"{bleu['chrf_beam']:.2f}", "character F-score", False),
+        ("activity", "t-green", "Perplexity", f"{losses['test_ppl']:.2f}", "test set", False),
         ("down", "t-indigo", "Training Loss", f"{losses['train_loss_at_best_epoch']:.3f}", f"epoch {best_epoch}", False),
         ("down", "t-purple", "Validation Loss", f"{losses['val_loss']:.3f}", "1,014 sentences", False),
         ("down", "t-blue", "Test Loss", f"{losses['test_loss']:.3f}", "1,000 sentences", False),
         ("cpu", "t-amber", "Parameters", f"{metrics['num_trainable_parameters'] / 1e6:.2f}M", "trainable", False),
-        ("clock", "t-green", "Training Time", f"{train_min:.0f} min" if train_min else "–", "15 epochs on CPU", False),
-        ("zap", "t-red", "Inference Latency", f"≈{timing['single_sentence_greedy_latency_ms_mean']:.0f} ms",
-         f"per sentence, greedy (beam ≈{timing['beam_ms_per_sentence']:.0f} ms)", False),
+        ("clock", "t-green", "Training Time", f"{train_min:.0f} min" if train_min else "–", "15 epochs · CPU", False),
+        ("zap", "t-red", "Latency", f"≈{timing['single_sentence_greedy_latency_ms_mean']:.0f} ms",
+         "per sentence · CPU", False),
     ]
     render('<div class="grid cols-5">' + "".join(
         f'<div class="card metric{" hl" if hl else ""}"><div class="top"><div class="ibubble sm {tone}">'
         f'{icon(ic, 20)}</div><div class="klabel">{esc(label)}</div></div><div class="num">{esc(value)}</div>'
         f'<div class="sm">{esc(sub)}</div></div>' for ic, tone, label, value, sub, hl in cards) + "</div>")
-    render(f'<div class="note">{icon("info", 18)}<div>Losses are label-smoothed cross-entropy (ε = 0.1); '
-           'perplexity = exp(un-smoothed test cross-entropy). These are <b>Multi30k</b> results and are not '
-           "comparable to the paper's WMT 2014 scores (27.3 / 28.4 BLEU), which were not reproduced here.</div></div>")
+    render('<div class="fine">Not comparable to the paper\'s WMT 2014 scores.</div>')
 
     g1, g2 = st.columns(2, gap="medium")
     for col, key, png, title in [(g1, "img_loss", "small_loss_curve.png", "Training vs validation loss"),
-                                 (g2, "img_attn", "small_cross_attention.png", "Learned encoder–decoder attention")]:
+                                 (g2, "img_attn", "small_cross_attention.png", "Learned cross-attention")]:
         path = C.GRAPHS_DIR / png
         if path.exists():
             with col, st.container(key=key):
-                render(f'<div class="imgcap">{icon("chart", 18)}{esc(title)}</div>')
-                st.image(str(path), width="stretch")
+                render(f'<div class="imgcap">{icon("chart", 18)}{esc(title)}</div>'
+                       f'<img class="graph" alt="{esc(title)}" src="{png_data_uri(str(path))}">')
 
 # --------------------------------------------------------------------------
 # Research paper
 # --------------------------------------------------------------------------
-section("paper", "Research Paper", "The work this project implements")
-p1, p2 = st.columns([1.35, 1], gap="medium")
+section("paper", "Research Paper", "Vaswani et al. · NeurIPS 2017")
+p1, p2 = st.columns([1.2, 1], gap="medium")
 render(f"""
 <div class="card prose">
-  <h3>{icon("book", 20)}Attention Is All You Need</h3>
-  <div class="cite">A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser,
-  I. Polosukhin. <em>Advances in Neural Information Processing Systems 30</em> (NeurIPS 2017). arXiv:1706.03762.</div>
-  The paper introduced the <b>Transformer</b>, a sequence-to-sequence model that drops recurrence and convolution
-  entirely and relies only on attention. Every word can attend to every other word in a single step, so whole
-  sentences are processed in parallel.
-  <ul>
-    <li><b>Scaled dot-product attention:</b> softmax(QKᵀ / √d<sub>k</sub>) V</li>
-    <li><b>Multi-head attention:</b> h parallel attention heads over different learned subspaces</li>
-    <li><b>Sinusoidal positional encoding</b> to inject word order</li>
-    <li><b>Encoder–decoder stacks</b> with residual connections and layer normalisation</li>
-    <li><b>Training recipe:</b> Adam with warm-up learning-rate schedule, dropout, label smoothing</li>
-  </ul>
+  <div class="ph3">{icon("book", 20)}Attention Is All You Need</div>
+  <div class="meta">Vaswani, Shazeer, Parmar, Uszkoreit, Jones, Gomez, Kaiser, Polosukhin · arXiv:1706.03762</div>
+  <div class="tags"><span>Self-attention</span><span>Multi-head attention</span><span>Positional encoding</span>
+  <span>Encoder–decoder</span><span>No recurrence</span></div>
   <a class="btnlink" href="{PAPER_URL}" target="_blank" rel="noopener">{icon("external", 16)}Read on arXiv</a>
 </div>""", p1)
 render(f"""
 <div class="card prose">
-  <h3>{icon("award", 20)}Results reported in the paper</h3>
-  BLEU on the WMT 2014 newstest2014 benchmarks (Table 2 of the paper):
-  <table class="pt"><tr><th>Task</th><th>Transformer (base)</th><th>Transformer (big)</th></tr>
+  <div class="ph3">{icon("award", 20)}Paper results · WMT 2014 BLEU</div>
+  <table class="pt"><tr><th>Task</th><th>Base</th><th>Big</th></tr>
   <tr><td>English → German</td><td class="n">27.3</td><td class="n">28.4</td></tr>
   <tr><td>English → French</td><td class="n">38.1</td><td class="n">41.8</td></tr></table>
-  <div class="note" style="margin-top:1rem">{icon("info", 18)}<div>These are the authors' numbers on WMT 2014
-  (~4.5M sentence pairs, 8 GPUs). This project trains on Multi30k (29k pairs, laptop CPU), so its scores
-  measure a different task and are not a reproduction of the paper.</div></div>
 </div>""", p2)
 
 # --------------------------------------------------------------------------
 # About
 # --------------------------------------------------------------------------
-section("about", "About Project", "What was built, with which tools, and how to run it", blue=True)
+section("about", "About Project", blue=True)
 render(f"""
 <div class="grid cols-3">
-  <div class="card prose"><h3>{icon("cap", 20)}Academic context</h3>
-    Mini-project for <b>Experiments 9 &amp; 10</b> of the Computational Linguistics and Natural Language
-    Processing Laboratory: implement a research paper end-to-end, train it on real data and evaluate it honestly.
-    <ul><li>All 15 Transformer components written by hand (no <code>nn.Transformer</code>)</li>
-    <li>28 unit tests + overfit sanity check</li><li>Academic report and viva questions included</li></ul></div>
-  <div class="card prose"><h3>{icon("layers", 20)}Tech stack</h3>
-    <ul><li><b>PyTorch</b> – model, training, inference</li>
-    <li><b>SentencePiece</b> – joint 8k BPE vocabulary</li>
-    <li><b>SacreBLEU</b> – BLEU and chrF evaluation</li>
-    <li><b>Streamlit</b> – this interface</li>
-    <li><b>Multi30k</b> – 29,000 / 1,014 / 1,000 sentence pairs</li></ul></div>
-  <div class="card prose"><h3>{icon("code", 20)}Run it yourself</h3>
-    <ul><li><code>pip install -r requirements.txt</code></li><li><code>python prepare_data.py</code></li>
-    <li><code>python train.py --config small</code></li><li><code>python evaluate.py</code></li>
-    <li><code>streamlit run app.py</code></li></ul>
-    <a class="btnlink" href="{REPO_URL}" target="_blank" rel="noopener">{icon("github", 16)}Source code on GitHub</a></div>
+  <div class="card prose"><div class="ph3">{icon("cap", 20)}Lab project</div>
+    <div class="meta">Computational Linguistics &amp; NLP Lab · Experiments 9 &amp; 10</div></div>
+  <div class="card prose"><div class="ph3">{icon("layers", 20)}Tech stack</div>
+    <div class="tags"><span>PyTorch</span><span>SentencePiece</span><span>SacreBLEU</span><span>Streamlit</span></div></div>
+  <div class="card prose"><div class="ph3">{icon("code", 20)}Source code</div>
+    <a class="btnlink" href="{REPO_URL}" target="_blank" rel="noopener">{icon("github", 16)}View on GitHub</a></div>
 </div>""")
 
-render(f"""<div class="footer">Vaswani et al., <em>Attention Is All You Need</em>, NeurIPS 2017 · Multi30k
-(Elliott et al., 2016) · All translations are produced locally by the trained checkpoint
-<code>{esc(CHECKPOINT.name)}</code>.</div>""")
+render('<div class="footer">Vaswani et al., 2017 · Multi30k · runs locally on the trained checkpoint</div>')

@@ -46,6 +46,9 @@ def full_page(page, path, width: int) -> None:
     height = page.evaluate("document.querySelector('[data-testid=\"stMain\"]').scrollHeight")
     page.set_viewport_size({"width": width, "height": max(900, height + 40)})
     page.wait_for_timeout(800)
+    page.wait_for_function("Array.from(document.images).every(i => i.complete && i.naturalWidth > 0)",
+                           timeout=30_000)
+    page.wait_for_timeout(500)
     page.screenshot(path=str(path))
     print(f"saved {path.name}")
 
@@ -53,8 +56,10 @@ def full_page(page, path, width: int) -> None:
 def translate(page, sentence: str, method: str) -> None:
     page.get_by_label("English sentence").fill(sentence)
     page.locator(".st-key-decoding label").filter(has_text=method).first.click()
+    before = page.locator(".tgt-box").first.inner_text()
     page.locator(".st-key-translate_btn button").click()
-    page.locator(".hint", has_text=sentence).wait_for(timeout=120_000)
+    page.wait_for_function("prev => (document.querySelector('.tgt-box') || {}).innerText !== prev", arg=before,
+                           timeout=120_000)
     page.wait_for_timeout(1200)
 
 
