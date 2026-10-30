@@ -571,6 +571,88 @@ def section(anchor: str, title: str, desc: str = "", right: str = "", blue: bool
 # Data
 # --------------------------------------------------------------------------
 render(CSS)
+
+# --------------------------------------------------------------------------
+# Page loader mascot: shown on a session's first run (while the model loads),
+# faded out by the style rendered at the very end of the script.
+# --------------------------------------------------------------------------
+LOADER = """
+<style>
+.page-loader {position: fixed; inset: 0; z-index: 1000000; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: .4rem; text-align: center; padding: 1rem;
+  background: radial-gradient(900px 420px at 50% 28%, #ede9fe 0%, transparent 62%),
+              linear-gradient(120deg, #f8faff 0%, #eef2ff 55%, #f3e8ff 100%);
+  transition: opacity .5s ease .9s, visibility 0s linear 1.4s;
+  animation: loader-failsafe .5s ease 25s forwards;}
+.page-loader svg {width: 210px; height: auto; overflow: visible;}
+.page-loader .ttl {font-weight: 800; font-size: 1.35rem; color: #111633; margin-top: .4rem; letter-spacing: -.01em;}
+.page-loader .ttl b {background: linear-gradient(90deg, #2563eb, #7c3aed); -webkit-background-clip: text;
+  background-clip: text; color: transparent;}
+.page-loader .ttl i {display: inline-block; width: 1.4em; text-align: left; font-style: normal; color: #7c3aed;}
+.page-loader .ttl i::after {content: ""; animation: loader-dots 1.2s steps(4) infinite;}
+.page-loader .sub {color: #6b7280; font-size: .92rem;}
+.page-loader .bot {animation: loader-bob 1.6s ease-in-out infinite;}
+.page-loader .shadow {transform-box: fill-box; transform-origin: center; animation: loader-shadow 1.6s ease-in-out infinite;}
+.page-loader .eye {transform-box: fill-box; transform-origin: center; animation: loader-blink 3.4s infinite;}
+.page-loader .bulb {animation: loader-glow 1.1s ease-in-out infinite alternate;}
+.page-loader .hd {animation: loader-wave 1.6s ease-in-out infinite;}
+.page-loader .hello {animation: loader-say 2.6s infinite;}
+.page-loader .hallo {animation: loader-say 2.6s infinite 1.3s; opacity: 0;}
+@keyframes loader-bob {50% {transform: translateY(-7px);}}
+@keyframes loader-shadow {50% {transform: scaleX(.82); opacity: .35;}}
+@keyframes loader-blink {0%, 90%, 100% {transform: scaleY(1);} 94% {transform: scaleY(.1);}}
+@keyframes loader-glow {from {opacity: .55;} to {opacity: 1;}}
+@keyframes loader-wave {0%, 100% {opacity: .25;} 30% {opacity: 1;}}
+@keyframes loader-say {0%, 42% {opacity: 1;} 50%, 92% {opacity: 0;} 100% {opacity: 1;}}
+@keyframes loader-dots {0% {content: "";} 25% {content: ".";} 50% {content: "..";} 75% {content: "...";}}
+@keyframes loader-failsafe {to {opacity: 0; visibility: hidden;}}
+@media (prefers-reduced-motion: reduce) {.page-loader * {animation: none !important;}
+  .page-loader .hallo {opacity: 0;}}
+</style>
+<div class="page-loader" role="status" aria-live="polite">
+<svg viewBox="0 0 200 180" aria-hidden="true">
+<defs><linearGradient id="botGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>
+<ellipse class="shadow" cx="90" cy="172" rx="36" ry="5" fill="#c7d2fe"/>
+<g class="bot">
+<line x1="90" y1="34" x2="90" y2="17" stroke="#6366f1" stroke-width="4" stroke-linecap="round"/>
+<circle class="bulb" cx="90" cy="12" r="7" fill="url(#botGrad)"/>
+<rect x="29" y="62" width="13" height="32" rx="6.5" fill="#6366f1"/>
+<rect x="138" y="62" width="13" height="32" rx="6.5" fill="#6366f1"/>
+<rect x="38" y="34" width="104" height="84" rx="30" fill="url(#botGrad)"/>
+<rect x="50" y="49" width="80" height="54" rx="20" fill="#eef2ff"/>
+<ellipse class="eye" cx="74" cy="73" rx="6" ry="8" fill="#1e1b4b"/>
+<ellipse class="eye" cx="106" cy="73" rx="6" ry="8" fill="#1e1b4b"/>
+<circle cx="76" cy="70" r="2" fill="#fff"/><circle cx="108" cy="70" r="2" fill="#fff"/>
+<circle cx="62" cy="87" r="4.5" fill="#fbcfe8"/><circle cx="118" cy="87" r="4.5" fill="#fbcfe8"/>
+<path d="M80 88 Q90 97 100 88" fill="none" stroke="#312e81" stroke-width="3" stroke-linecap="round"/>
+<rect x="60" y="121" width="60" height="38" rx="14" fill="#ffffff" stroke="#c7d2fe" stroke-width="2"/>
+<circle class="hd" cx="75" cy="133" r="3.2" fill="#93c5fd" style="animation-delay: 0s"/>
+<circle class="hd" cx="85" cy="133" r="3.2" fill="#a5b4fc" style="animation-delay: .1s"/>
+<circle class="hd" cx="95" cy="133" r="3.2" fill="#a5b4fc" style="animation-delay: .2s"/>
+<circle class="hd" cx="105" cy="133" r="3.2" fill="#c4b5fd" style="animation-delay: .3s"/>
+<circle class="hd" cx="75" cy="147" r="3.2" fill="#c4b5fd" style="animation-delay: .4s"/>
+<circle class="hd" cx="85" cy="147" r="3.2" fill="#d8b4fe" style="animation-delay: .5s"/>
+<circle class="hd" cx="95" cy="147" r="3.2" fill="#f0abfc" style="animation-delay: .6s"/>
+<circle class="hd" cx="105" cy="147" r="3.2" fill="#f9a8d4" style="animation-delay: .7s"/>
+</g>
+<g>
+<rect x="128" y="2" width="68" height="30" rx="12" fill="#ffffff" stroke="#c7d2fe" stroke-width="1.5"/>
+<path d="M140 31 L134 43 L152 31" fill="#ffffff" stroke="#c7d2fe" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="139" y="29" width="14" height="4" fill="#ffffff"/>
+<text class="hello" x="162" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#2563eb">Hello!</text>
+<text class="hallo" x="162" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#7c3aed">Hallo!</text>
+</g>
+</svg>
+<div class="ttl">Warming up the <b>Transformer</b><i></i></div>
+<div class="sub">Loading the trained checkpoint · English → German</div>
+</div>
+"""
+first_run = "booted" not in st.session_state
+# Later runs keep an empty element in the loader's slot: shifting every element after it would make
+# Streamlit re-mount the voice components and duplicate their buttons.
+render(LOADER if first_run else '<span class="page-loader-slot" hidden></span>')
+
 translator, load_error = get_translator()
 metrics = load_json(C.METRICS_DIR / "small_metrics.json")
 history = load_json(C.METRICS_DIR / "small_history.json")
@@ -988,3 +1070,7 @@ render(f"""
 </div>""")
 
 render('<div class="footer">Vaswani et al., 2017 · Multi30k · runs locally on the trained checkpoint</div>')
+
+if first_run:                       # page fully rendered: fade the loader mascot out
+    st.session_state.booted = True
+    render("<style>.page-loader {opacity: 0; visibility: hidden; pointer-events: none;}</style>")
