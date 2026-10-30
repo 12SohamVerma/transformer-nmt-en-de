@@ -73,7 +73,6 @@ _ICON_PATHS = {
     "list": '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/>'
             '<path d="M3 18h.01"/>',
     "check": '<circle cx="12" cy="12" r="10"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
-    "chevron": '<path d="m6 9 6 6 6-6"/>',
     "award": '<circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/>',
     "type": '<path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>',
     "activity": '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
@@ -252,7 +251,6 @@ section[data-testid="stSidebar"] .block-container, [data-testid="stSidebarUserCo
 .lang .flag {width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex: none;
   box-shadow: 0 0 0 4px #f1f2f9;}
 .lang .flag svg {width: 100%; height: 100%; display: block;}
-.lang .chev {margin-left: auto; color: #374151;}
 .st-key-src_card textarea {font-size: 1.05rem !important; line-height: 1.55; color: var(--ink);}
 .st-key-src_card [data-testid="stTextAreaRootElement"], .st-key-src_card [data-testid="stTextAreaRootElement"] > div
   {background: #fff !important; border-radius: 12px;}
@@ -352,6 +350,14 @@ table.pt td.n {font-weight: 700; color: #4338ca;}
 .tags {display: flex; flex-wrap: wrap; gap: .45rem;}
 .tags span {background: var(--soft); color: #3730a3; border-radius: 999px; padding: .3rem .75rem; font-size: .82rem;
   font-weight: 600;}
+@media (max-width: 640px) {
+  .st-key-src_head [data-testid="stHorizontalBlock"], .st-key-tgt_head [data-testid="stHorizontalBlock"] {
+    flex-wrap: wrap; gap: .5rem;}
+  .st-key-src_head [data-testid="stColumn"], .st-key-tgt_head [data-testid="stColumn"] {
+    flex: 1 1 calc(50% - .5rem) !important; width: calc(50% - .5rem) !important; min-width: 0 !important;}
+  .st-key-src_head [data-testid="stColumn"]:first-child, .st-key-tgt_head [data-testid="stColumn"]:first-child {
+    flex-basis: 100% !important; width: 100% !important;}
+}
 @media (max-width: 640px) {.block-container {padding: 1rem 1rem 2rem;} .hero {padding: 1.5rem 1.3rem;}}
 </style>
 """
@@ -409,33 +415,149 @@ def run_translation(translator, text: str, method: str) -> dict:
             "ms": out.seconds * 1000, "tokens": len(out.tokens)}
 
 
-def copy_button(text: str) -> None:
-    """Small iframe button that copies the translation to the clipboard."""
-    payload = json.dumps(text).replace("</", "<\\/")
-    st.iframe(f"""
-<style>
-body {{margin:0; display:flex; justify-content:flex-end; align-items:center; height:42px;}}
-button {{all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:7px; color:#4f46e5;
-  font:600 13.5px 'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif; border:1px solid #c7d2fe; background:#fff;
-  border-radius:10px; padding:7px 14px;}}
-button:hover {{background:#eef2ff;}}
-</style>
-<button id="copy">{icon("copy", 16)}<span>Copy</span></button>
-<script>
-const text = {payload};
-const btn = document.getElementById('copy'), label = btn.querySelector('span');
-btn.addEventListener('click', async () => {{
-  let ok = false;
-  try {{ await navigator.clipboard.writeText(text); ok = true; }}
-  catch (e) {{
-    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
-    try {{ ok = document.execCommand('copy'); }} catch (e2) {{ ok = false; }}
-    ta.remove();
-  }}
-  label.textContent = ok ? 'Copied' : 'Copy failed';
-  setTimeout(() => label.textContent = 'Copy', 1600);
-}});
-</script>""", height=44)
+# --------------------------------------------------------------------------
+# Voice and clipboard buttons (Streamlit v2 components, run in the page itself).
+# Speech recognition and speech synthesis are provided by the user's browser;
+# translation itself always runs on the local Transformer.
+# --------------------------------------------------------------------------
+_BUTTON_CSS = """
+:host {display: block;}
+button {all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center;
+  justify-content: center; gap: 7px; width: 100%; padding: 8px 10px; border-radius: 10px; white-space: nowrap;
+  font: 600 13.5px 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; color: #4f46e5; background: #fff;
+  border: 1px solid #c7d2fe; transition: background .15s;}
+button:hover {background: #eef2ff;}
+button:disabled {cursor: not-allowed; color: #9ca3af; border-color: #e5e7eb; background: #f9fafb;}
+button.on {color: #dc2626; border-color: #fecaca; background: #fef2f2;}
+.dot {display: none; width: 8px; height: 8px; border-radius: 50%; background: #dc2626;}
+button.on .dot {display: inline-block;}
+"""
+_MIC_ICON = ('<path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10a7 7 0 0 1-14 0"/>'
+             '<path d="M12 17v5"/><path d="M8 22h8"/>')
+_SPEAKER_ICON = ('<path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>'
+                 '<path d="M19 5a10 10 0 0 1 0 14"/>')
+
+
+def _button_html(icon_paths: str, label: str, title: str) -> str:
+    svg = (f'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+           f'stroke-linecap="round" stroke-linejoin="round">{icon_paths}</svg>')
+    return f'<button type="button" title="{title}">{svg}<span class="dot"></span><span class="lbl">{label}</span></button>'
+
+
+VOICE_INPUT = st.components.v2.component(
+    "voice_input",
+    html=_button_html(_MIC_ICON, "Speak", "Speak an English sentence (browser speech recognition)"),
+    css=_BUTTON_CSS,
+    js="""
+export default function ({ parentElement, setTriggerValue }) {
+  const btn = parentElement.querySelector("button");
+  const label = btn.querySelector(".lbl");
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Recognition) {
+    btn.disabled = true;
+    btn.title = "Voice input needs Google Chrome or Microsoft Edge";
+    return;
+  }
+  let rec = null;
+  btn.onclick = () => {
+    if (rec) { rec.stop(); return; }
+    let problem = "";
+    rec = new Recognition();
+    rec.lang = "en-US";
+    rec.interimResults = false;
+    rec.maxAlternatives = 1;
+    rec.onresult = (e) => {
+      const text = Array.from(e.results).map((r) => r[0].transcript).join(" ").trim();
+      if (text) setTriggerValue("transcript", text);
+    };
+    rec.onerror = (e) => {
+      problem = e.error === "not-allowed" ? "Mic blocked" : e.error === "no-speech" ? "No speech" : "Try again";
+    };
+    rec.onend = () => {
+      rec = null;
+      btn.classList.remove("on");
+      label.textContent = problem || "Speak";
+      if (problem) setTimeout(() => { if (!rec) label.textContent = "Speak"; }, 2000);
+    };
+    btn.classList.add("on");
+    label.textContent = "Listening…";
+    try { rec.start(); } catch (err) { rec = null; btn.classList.remove("on"); label.textContent = "Speak"; }
+  };
+  return () => { if (rec) rec.abort(); };
+}
+""",
+)
+
+VOICE_OUTPUT = st.components.v2.component(
+    "voice_output",
+    html=_button_html(_SPEAKER_ICON, "Listen", "Read aloud"),
+    css=_BUTTON_CSS,
+    js="""
+export default function ({ parentElement, data }) {
+  const btn = parentElement.querySelector("button");
+  const label = btn.querySelector(".lbl");
+  const synth = window.speechSynthesis;
+  const text = (data && data.text) || "";
+  const lang = (data && data.lang) || "en-US";
+  btn.disabled = !synth || !text;
+  if (!synth) { btn.title = "Speech output is not supported in this browser"; return; }
+  synth.getVoices();                                   // voices load asynchronously in some browsers
+  const pickVoice = () => {
+    const voices = synth.getVoices();
+    return voices.find((v) => v.lang === lang && v.localService) || voices.find((v) => v.lang === lang)
+      || voices.find((v) => v.lang.startsWith(lang.slice(0, 2))) || null;
+  };
+  btn.onclick = () => {
+    if (btn.classList.contains("on")) { synth.cancel(); return; }
+    synth.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = 0.95;
+    const voice = pickVoice();
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => { btn.classList.add("on"); label.textContent = "Stop"; };
+    utterance.onend = utterance.onerror = () => { btn.classList.remove("on"); label.textContent = "Listen"; };
+    synth.speak(utterance);
+  };
+}
+""",
+)
+
+COPY_TEXT = st.components.v2.component(
+    "copy_text",
+    html=_button_html(_ICON_PATHS["copy"], "Copy", "Copy the translation"),
+    css=_BUTTON_CSS,
+    js="""
+export default function ({ parentElement, data }) {
+  const btn = parentElement.querySelector("button");
+  const label = btn.querySelector(".lbl");
+  const text = (data && data.text) || "";
+  btn.disabled = !text;
+  btn.onclick = async () => {
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; }
+    catch (e) {
+      const area = document.createElement("textarea");
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+      area.remove();
+    }
+    label.textContent = ok ? "Copied" : "Copy failed";
+    setTimeout(() => { label.textContent = "Copy"; }, 1600);
+  };
+}
+""",
+)
+
+
+def on_voice_transcript() -> None:
+    """Spoken English fills the input box and is translated on this rerun."""
+    text = ((st.session_state.get("voice_mic") or {}).get("transcript") or "").strip()
+    if text:
+        st.session_state.src_text = text[:500]
+        st.session_state.voice_translate = True
 
 
 def section(anchor: str, title: str, desc: str = "", right: str = "", blue: bool = False) -> None:
@@ -535,8 +657,14 @@ section("translate", "Translate English → German",
 left, right = st.columns(2, gap="medium")
 with left:
     with st.container(key="src_card"):
-        render(f'<div class="lang"><span class="flag">{FLAG_UK}</span><span><b>English</b> (Source Language)'
-               f'</span><span class="chev">{icon("chevron", 20)}</span></div>')
+        with st.container(key="src_head"):
+            head, listen_col, mic_col = st.columns([4, 1.25, 1.35], vertical_alignment="center")
+            render(f'<div class="lang"><span class="flag">{FLAG_UK}</span><span><b>English</b> (Source Language)'
+                   f'</span></div>', head)
+            with listen_col:
+                VOICE_OUTPUT(key="speak_src", data={"text": st.session_state.src_text, "lang": "en-US"})
+            with mic_col:
+                VOICE_INPUT(key="voice_mic", on_transcript_change=on_voice_transcript)
         st.text_area("English sentence", key="src_text", height=128, max_chars=500, label_visibility="collapsed",
                      placeholder="Type an English sentence, e.g. A man is riding a bicycle down the street.")
         with st.container(key="decoding"):
@@ -549,7 +677,7 @@ with left:
         with st.container(key="translate_btn"):
             clicked = st.button("Translate", type="primary", icon=":material/auto_awesome:", width="stretch")
 
-        if clicked:
+        if clicked or st.session_state.pop("voice_translate", False):
             text = st.session_state.src_text.strip()
             if not text:
                 st.warning("Please enter an English sentence to translate.", icon="✏️")
@@ -568,12 +696,15 @@ with left:
 with right:
     res = st.session_state.get("result")
     with st.container(key="tgt_card"):
-        head, copy_col = st.columns([4, 1.2], vertical_alignment="center")
-        render(f'<div class="lang"><span class="flag">{FLAG_DE}</span><span><b>German</b> (Target Language)'
-               f'</span></div>', head)
-        with copy_col:
-            if res and res["translation"]:
-                copy_button(res["translation"])
+        with st.container(key="tgt_head"):
+            head, listen_col, copy_col = st.columns([4, 1.25, 1.2], vertical_alignment="center")
+            render(f'<div class="lang"><span class="flag">{FLAG_DE}</span><span><b>German</b> (Target Language)'
+                   f'</span></div>', head)
+            translation = res["translation"] if res else ""
+            with listen_col:
+                VOICE_OUTPUT(key="speak_tgt", data={"text": translation, "lang": "de-DE"})
+            with copy_col:
+                COPY_TEXT(key="copy_tgt", data={"text": translation})
         if res:
             if res["method"] == GREEDY:
                 m_title, m_sub = "Greedy search", "argmax at each step"

@@ -38,6 +38,7 @@ transformer-mini-project/
 ├── tests/
 │   ├── test_components.py  # 28 unit tests (shapes, masks, maths, checkpoint, decoding)
 │   ├── test_app.py         # headless Streamlit test (loads model, clicks Translate)
+│   ├── voice_browser_check.py  # real-browser test of Speak / Listen / Copy
 │   └── overfit_test.py     # memorise 32 real sentence pairs
 ├── data/                   # raw/ (downloaded .gz) and processed/ (clean text, stats.json)
 ├── tokenizer/              # spm_bpe.model / spm_bpe.vocab
@@ -91,6 +92,13 @@ python translate.py            # interactive
 streamlit run app.py                     # or: python -m streamlit run app.py
 python -m streamlit run app_detailed.py  # extended version
 ```
+
+**Voice features in the app.** *Speak* (microphone) turns spoken English into the input sentence and translates
+it; *Listen* reads the English input or the German translation aloud. Both use the browser's built-in speech
+engines (Web Speech API): voice input needs Chrome or Edge, which may process the audio with their own online
+speech service. The translation itself always runs on the local Transformer. For German read-aloud, a German voice
+must be available (Edge/Chrome include online ones; on Windows you can add *Deutsch* under
+Settings → Time & language → Speech). `python tests/voice_browser_check.py` tests the voice flow in a real browser.
 
 If PowerShell prints garbled umlauts, run `$env:PYTHONIOENCODING="utf-8"` first.
 
