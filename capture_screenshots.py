@@ -52,10 +52,10 @@ def full_page(page, path, width: int) -> None:
 
 def translate(page, sentence: str, method: str) -> None:
     page.get_by_label("English sentence").fill(sentence)
-    page.get_by_text(method, exact=False).first.click()
-    page.get_by_role("button", name="Translate", exact=True).click()
-    page.locator(".output:not(.empty)").wait_for(timeout=120_000)
-    page.wait_for_timeout(1000)
+    page.locator(".st-key-decoding label").filter(has_text=method).first.click()
+    page.locator(".st-key-translate_btn button").click()
+    page.locator(".hint", has_text=sentence).wait_for(timeout=120_000)
+    page.wait_for_timeout(1200)
 
 
 def main() -> None:
@@ -74,16 +74,16 @@ def main() -> None:
         wait_for_server(url)
         with sync_playwright() as p:
             browser = launch_browser(p)
-            page = browser.new_page(viewport={"width": 1366, "height": 900})
+            page = browser.new_page(viewport={"width": 1440, "height": 900})
             page.goto(url)
-            page.get_by_text("Model loaded").wait_for(timeout=120_000)
+            page.locator(".pill.ok").wait_for(timeout=120_000)
 
             translate(page, "A little girl in a pink dress is climbing a tree.", "Beam Search")
-            full_page(page, OUT / "ui_01_full_page_beam.png", 1366)
+            full_page(page, OUT / "ui_01_full_page_beam.png", 1440)
 
-            page.set_viewport_size({"width": 1366, "height": 900})
+            page.set_viewport_size({"width": 1440, "height": 1000})
             translate(page, "Two dogs are playing in the snow.", "Greedy Search")
-            page.locator(".output").first.scroll_into_view_if_needed()
+            page.evaluate("document.querySelector('[data-testid=stMain]').scrollTo(0, 0)")
             page.wait_for_timeout(500)
             page.screenshot(path=str(OUT / "ui_02_translate_greedy.png"))
             print("saved ui_02_translate_greedy.png")

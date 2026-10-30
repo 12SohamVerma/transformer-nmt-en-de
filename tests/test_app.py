@@ -45,7 +45,7 @@ class TestStreamlitApp(unittest.TestCase):
     def test_1_page_loads_with_model_and_metrics(self):
         self.assertFalse(self.at.exception, self.at.exception)
         page = self.page_html()
-        self.assertIn("Transformer-Based Neural Machine Translation", page)
+        self.assertIn("Neural Machine Translation", page)
         self.assertIn("Model loaded", page)
         self.assertIn("37.09", page)          # read from results/metrics/small_metrics.json
         self.assertIn("6.00", page)           # test perplexity
@@ -60,7 +60,8 @@ class TestStreamlitApp(unittest.TestCase):
         self.translate(self.at.radio[0].options[1])            # Beam Search (4, 0.6)
         expected = self.reference.translate(SENTENCE, beam_size=4, alpha=0.6).translation
         self.assertIn(html.escape(expected), self.page_html())
-        self.assertIn("Beam search (k = 4", self.page_html())
+        self.assertIn("Beam search", self.page_html())
+        self.assertIn("k = 4, α = 0.6", self.page_html())
 
     def test_4_example_button_fills_input(self):
         self.at.button(key="example_1").click()
