@@ -141,7 +141,9 @@ The repository includes the trained checkpoint (`checkpoints/small_best.pt`, 30 
 Streamlit UI can be deployed without retraining. Everything runs on the server's CPU; no external
 translation API is used.
 
-**Render (free web service).** `render.yaml` is a Render Blueprint:
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/12SohamVerma/transformer-nmt-en-de)
+
+**Render (free web service).** `render.yaml` is a Render Blueprint. Click the button above, or:
 
 1. Sign in at <https://dashboard.render.com> with GitHub.
 2. **New + → Blueprint** → select this repository → **Apply**.
